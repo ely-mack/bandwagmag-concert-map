@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --bwp-red: #e4414a;
+  --bwp-cyan: #3fc9e6;
+  --bwp-purple: #70209b;
+  --bwp-card: #16131c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--bwp-red);
+  --color-brand-cyan: var(--bwp-cyan);
+  --color-brand-purple: var(--bwp-purple);
+  --color-card: var(--bwp-card);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), Impact, "Helvetica Neue", sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* ── Venue map markers ───────────────────────────────────────── */
+
+.bwp-venue-icon { background: transparent !important; border: 0 !important; }
+
+.bwp-venue-pin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--bwp-red);
+  color: #fff;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border: 2px solid #fff;
+  box-shadow: 0 8px 24px rgba(228, 65, 74, 0.35), 0 0 0 1px rgba(0,0,0,0.4);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  cursor: grab;
+  overflow: hidden;
+  user-select: none;
+}
+
+.leaflet-marker-draggable.leaflet-drag-target .bwp-venue-pin,
+.bwp-venue-pin:active {
+  cursor: grabbing;
+}
+
+/* External (Bandsintown) venues get cyan instead of red */
+.bwp-venue-pin--external {
+  background: var(--bwp-cyan);
+  box-shadow: 0 8px 24px rgba(63, 201, 230, 0.3), 0 0 0 1px rgba(0,0,0,0.4);
+}
+.bwp-venue-pin--external:hover {
+  box-shadow: 0 12px 32px rgba(63, 201, 230, 0.5), 0 0 0 1px rgba(0,0,0,0.5);
+}
+.bwp-venue-pin--external .bwp-venue-pin__count {
+  background: var(--bwp-cyan);
+}
+
+/* Logo variant */
+.bwp-venue-pin--logo {
+  background: #000;
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(228, 65, 74, 0.5);
+}
+.bwp-venue-pin--logo:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75), 0 0 0 2px var(--bwp-red);
+}
+.bwp-venue-pin--logo.bwp-venue-pin--external {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(63, 201, 230, 0.5);
+}
+.bwp-venue-pin--logo.bwp-venue-pin--external:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75), 0 0 0 2px var(--bwp-cyan);
+}
+
+.bwp-venue-pin:hover {
+  transform: scale(1.08);
+  box-shadow: 0 12px 32px rgba(228, 65, 74, 0.55), 0 0 0 1px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+.bwp-venue-pin__initials { line-height: 1; }
+
+.bwp-venue-pin__logo {
+  position: absolute;
+  inset: 12%;
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.bwp-venue-pin__count {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  min-width: 20px;
+  padding: 2px 6px;
+  background: var(--bwp-red);
+  border: 2px solid #000;
+  border-radius: 9999px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  font-size: 10px;
+}
+
+.bwp-venue-pin:not(.bwp-venue-pin--logo) .bwp-venue-pin__count {
+  position: static;
+  background: transparent;
+  border: 0;
+  margin-top: 2px;
+  padding: 0;
+  opacity: 0.85;
+  font-weight: 700;
+}
+
+/* Tooltip */
+.bwp-venue-tooltip {
+  background: #000 !important;
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  color: #fff !important;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: 12px !important;
+  padding: 8px 10px !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+.bwp-venue-tooltip::before { display: none !important; }
+
+/* Leaflet overrides */
+.leaflet-container { background: #0a0a0a; font-family: var(--font-geist-sans), sans-serif; }
+.leaflet-control-attribution { background: rgba(0,0,0,0.6) !important; color: #888 !important; }
+.leaflet-control-attribution a { color: #aaa !important; }
+.leaflet-control-zoom a {
+  background: rgba(0,0,0,0.8) !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,0.15) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgba(30,30,30,0.9) !important;
+}
